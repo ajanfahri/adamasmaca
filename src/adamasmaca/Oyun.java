@@ -14,7 +14,7 @@ import java.util.Random;
 public class Oyun{
 
 
-String[] kelime={"KEMER","ASGARİ","DENEME","AMAÇ"};
+String[] kelime={"KEMER","ASGARİ","DENEME","AMAÇ","ANESTEZİ","ARKEOLOG",};
 String secilenKelime="";
 int bulunanharf=0;
 int puan=0;
@@ -23,7 +23,7 @@ int hatasayisi=0;
     
     public Oyun(){
         Random r = new Random();
-	secim=r.nextInt(4) + 0;
+	secim=r.nextInt(6) + 0;
         secilenKelime=kelime[secim];
     }
     

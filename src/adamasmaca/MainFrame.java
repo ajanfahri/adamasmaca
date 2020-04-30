@@ -6,6 +6,17 @@
 package adamasmaca;
 
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,12 +30,19 @@ public class MainFrame extends javax.swing.JFrame {
 
     Oyun yenioyun;
     String Kelime="";
+    int kazanilanoyun=0;
+    int kaybedilenoyun=0;
+    
     
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        kaybedilen.setVisible(false);
+        kazanilan.setVisible(false);
+        adi.setVisible(false);
+        harfleri_gizle(false);
     }
 
     /**
@@ -91,14 +109,22 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         tahmin = new javax.swing.JTextField();
         jButton33 = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        jPanel3 = new javax.swing.JPanel();
+        adi = new javax.swing.JLabel();
+        kazanilan = new javax.swing.JLabel();
+        kaybedilen = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -584,7 +610,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel2.add(harfalt8, new org.netbeans.lib.awtextra.AbsoluteConstraints(397, 89, -1, -1));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 470, 120));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 470, 120));
 
         jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -619,66 +645,134 @@ public class MainFrame extends javax.swing.JFrame {
         });
         getContentPane().add(jButton33, new org.netbeans.lib.awtextra.AbsoluteConstraints(181, 303, -1, -1));
 
-        jMenu1.setText("Yeni");
+        adi.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        adi.setText("Hasan");
 
-        jMenuItem1.setText("Yeni Oyun");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        kazanilan.setText("Kazandığınız Oyun : 3");
+
+        kaybedilen.setText("Kaybettiğini Oyun  : 4");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(kaybedilen)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(adi)
+                        .addGap(32, 32, 32)
+                        .addComponent(kazanilan)))
+                .addContainerGap(289, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adi)
+                    .addComponent(kazanilan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(kaybedilen)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 50));
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton1.setText("ÇIKIŞ");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 170, 130, 70));
 
-        jMenuItem2.setText("Yeni Kullanıcı");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton2.setText("YENİ OYUN");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jButton2ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
-
-        jMenuItem3.setText("Çıkış");
-        jMenu1.add(jMenuItem3);
-
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 130, 70));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        harfleri_goster(false);
-        butonlari_goster(true);
-        yenioyun=new Oyun();
-        resmidegistir(yenioyun.hatasayisi);
-        Kelime=yenioyun.KelimeyiGetir();
-        for(int i=0;i<Kelime.length();i++){
-            if(i==0){harfalt1.setVisible(true);}
-            if(i==1){harfalt2.setVisible(true);}
-            if(i==2){harfalt3.setVisible(true);}
-            if(i==3){harfalt4.setVisible(true);}
-            if(i==4){harfalt5.setVisible(true);}
-            if(i==5){harfalt6.setVisible(true);}
-            if(i==6){harfalt7.setVisible(true);}
-            if(i==7){harfalt8.setVisible(true);}
-        }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-        harfleri_goster(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
         // TODO add your handling code here:
-        if(Kelime.compareTo(tahmin.getText().toUpperCase())==0){kelimeYaz();oyunBitir();}
+        if(Kelime.compareTo(tahmin.getText().toUpperCase())==0){kelimeYaz();oyunBitir(true);}
         
     }//GEN-LAST:event_jButton33ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+         String result = JOptionPane.showInputDialog(this, "Adını Girin:");
+         String gelenline="";
+         if(result==null||result.length()<0){dispose();}
+         
+        adi.setText(result);
+        kaybedilen.setVisible(true);
+        kazanilan.setVisible(true);
+        adi.setVisible(true);
+        if(!Files.exists(Paths.get(result))){
+        kazanilanoyun=0;kaybedilenoyun=0;
+        }else {
+            
+            java.io.BufferedReader in = null;
+            
+             try {
+                 in = new java.io.BufferedReader(new java.io.FileReader(result));
+                 String line;
+                 while((line = in.readLine()) != null){
+                     gelenline=line;
+                 }    in.close();
+             } catch (FileNotFoundException ex) {
+                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (IOException ex) {
+                 Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+             } finally {
+                 try {
+                     in.close();
+                 } catch (IOException ex) {
+                     Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             }
+             
+             kazanilanoyun=Integer.valueOf(gelenline.substring(0,gelenline.indexOf("/")));
+             kaybedilenoyun=Integer.valueOf(gelenline.substring(gelenline.indexOf("/")+1));
+        }
+        durumguncelle();
+        yenioyun();
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        try {
+            // TODO add your handling code here:
+            dosyayaz();
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        try {
+            dosyayaz();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+yenioyun();
+
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -717,6 +811,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton abutton;
+    private javax.swing.JLabel adi;
     private javax.swing.JButton bbutton;
     private javax.swing.JButton cbutton;
     private javax.swing.JButton ccbutton;
@@ -744,18 +839,17 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton hbutton;
     private javax.swing.JButton ibutton;
     private javax.swing.JButton iibutton;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton33;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JButton jbutton;
+    private javax.swing.JLabel kaybedilen;
+    private javax.swing.JLabel kazanilan;
     private javax.swing.JButton kbutton;
     private javax.swing.JButton lbutton;
     private javax.swing.JButton mbutton;
@@ -798,6 +892,16 @@ public class MainFrame extends javax.swing.JFrame {
     harfalt8.setVisible(deger);
     
     }
+    private void harfleri_gizle(boolean deger){
+    harf1.setVisible(deger);
+    harf2.setVisible(deger);
+    harf3.setVisible(deger);
+    harf4.setVisible(deger);
+    harf5.setVisible(deger);
+    harf6.setVisible(deger);
+    harf7.setVisible(deger);
+    harf8.setVisible(deger);
+    }
 
     private int harfara(String ara) {
         int sonuc=0;
@@ -816,8 +920,35 @@ public class MainFrame extends javax.swing.JFrame {
     return sonuc;
         }
 
-    private void oyunBitir() {
-        JOptionPane.showMessageDialog(this, "OYUN BİTTİ"); 
+    private void oyunBitir(boolean deger) {
+        
+        
+        if(deger)kazanilanoyun++;else kaybedilenoyun++;
+        durumguncelle();
+        String mesaj="";
+        if(deger)mesaj="TEBRİKLER KAZANDIN"; 
+        else mesaj="MALESEF KAYBETTİNİZ"; 
+        
+        int dialogButton=JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null, mesaj+ " Yeni Oyun Oynansın mı?","Warning",dialogButton);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            yenioyun();
+            
+                
+            }
+        else {
+            try {
+                dosyayaz();
+            } catch (IOException ex) {
+                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            dispose();
+        }
+        
+        
+        
+        
+        
 
     }
 
@@ -826,8 +957,8 @@ public class MainFrame extends javax.swing.JFrame {
         int sonuc=harfara(gelenbutton.getText());
         yenioyun.harfbulundu(sonuc);
         if(sonuc==0){yenioyun.hatasayisi++;resmidegistir(yenioyun.hatasayisi);}
-        if(yenioyun.hatasayisi==10){kelimeYaz();oyunBitir();}
-        if(yenioyun.bulunanharf==Kelime.length())oyunBitir();
+        if(yenioyun.hatasayisi==10){kelimeYaz();oyunBitir(false);}
+        if(yenioyun.bulunanharf==Kelime.length())oyunBitir(true);
         gelenbutton.setEnabled(false);
     }
 
@@ -885,10 +1016,41 @@ public class MainFrame extends javax.swing.JFrame {
         resim.setIcon( new ImageIcon(getClass().getResource(imagename) ) );
 
     }
+
+    private void durumguncelle() {
+     kazanilan.setText("Kazanılan oyun : "+kazanilanoyun);
+     kaybedilen.setText("Kaybedilen oyun : "+kaybedilenoyun);
+    }
+
+    private void dosyayaz() throws IOException {
+     
+        FileWriter fr = new FileWriter(adi.getText());
+        java.io.BufferedWriter br = new java.io.BufferedWriter(fr);
+        br.write(String.valueOf(kazanilanoyun)+"/"+String.valueOf(kaybedilenoyun));
+        br.close();
+     
+    }
+
+    private void yenioyun() {
+     harfleri_goster(false);
+        butonlari_goster(true);
+        yenioyun=new Oyun();
+        resmidegistir(yenioyun.hatasayisi);
+        Kelime=yenioyun.KelimeyiGetir();
+        for(int i=0;i<Kelime.length();i++){
+            if(i==0){harfalt1.setVisible(true);}
+            if(i==1){harfalt2.setVisible(true);}
+            if(i==2){harfalt3.setVisible(true);}
+            if(i==3){harfalt4.setVisible(true);}
+            if(i==4){harfalt5.setVisible(true);}
+            if(i==5){harfalt6.setVisible(true);}
+            if(i==6){harfalt7.setVisible(true);}
+            if(i==7){harfalt8.setVisible(true);}
+        }
+    }
+
+
 }
-
-
-
 /*
 for(int i=0;i<Kelime.length();i++){
             if(i==0){harf1.setVisible(true);harfalt1.setVisible(true);harf1.setText(String.valueOf(Kelime.charAt(i)));}
