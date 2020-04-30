@@ -19,7 +19,7 @@ String secilenKelime="";
 int bulunanharf=0;
 int puan=0;
     int secim=0;
-    
+int hatasayisi=0;    
     
     public Oyun(){
         Random r = new Random();
